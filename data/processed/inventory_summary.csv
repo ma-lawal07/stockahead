@@ -1,0 +1,4 @@
+model,unmet_units,stockout_product_weeks,fill_rate_percent,average_closing_stock_per_product
+last_week,22783,43,84.34050450202763,877.1416666666667
+moving_average_4,27838,52,80.86603890301738,432.40416666666664
+random_forest,28933,48,80.11340985634752,450.9916666666667

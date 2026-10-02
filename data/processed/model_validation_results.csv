@@ -1,0 +1,4 @@
+model,MAE_units,WAPE_percent,product_weeks,improvement_vs_last_week_percent
+last_week,358.3,69.37244366998233,160,0.0
+moving_average_4,303.00625,58.666715070548655,160,15.43224951158247
+random_forest,295.2806112260481,57.17091144046044,160,17.58844230364273

@@ -1,0 +1,9 @@
+
+.venv/
+__pycache__/
+.ipynb_checkpoints/
+.env
+data/raw/
+data/processed/cleaned_transactions.csv
+data/processed/excluded_entries.csv
+data/processed/priority_inputs.csv

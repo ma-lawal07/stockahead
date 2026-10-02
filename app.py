@@ -36,6 +36,12 @@ test_predictions = pd.read_csv(
     parse_dates=["week_start"]
 )
 
+next_week_forecasts = pd.read_csv(
+    DATA / "next_week_forecasts.csv",
+    dtype={"StockCode": str},
+    parse_dates=["week_start"]
+)
+
 st.title("StockAhead")
 st.caption("Retail demand forecasting and inventory planning")
 st.info(
@@ -109,13 +115,24 @@ with forecast_tab:
 
     method = st.selectbox(
         "Forecast method",
-        ["Four-week moving average", "Last week"]
+        [
+            "Four-week moving average",
+            "Last week",
+            "Random forest"
+        ]
     )
 
     if method == "Four-week moving average":
         forecast = float(rows["units"].tail(4).mean())
-    else:
+    elif method == "Last week":
         forecast = float(rows["units"].iloc[-1])
+    else:
+        forecast = float(
+            next_week_forecasts.loc[
+                next_week_forecasts["StockCode"] == product,
+                "random_forest"
+            ].iloc[0]
+        )
 
     next_week = rows["week_start"].max() + pd.Timedelta(weeks=1)
     st.metric("Forecast units", f"{forecast:,.1f}")
@@ -201,7 +218,7 @@ with forecast_tab:
 
         st.session_state["priority_base"] = base
 
-        editor_data = st.session_state["priority_base"].copy()
+    editor_data = st.session_state["priority_base"].copy()
 
     editor_data.insert(
         1,
@@ -211,7 +228,7 @@ with forecast_tab:
 
     inputs = st.data_editor(
         editor_data,
-        disabled=["Product", "Forecast units"],
+        disabled=["Product", "Product name", "Forecast units"],
         column_config={
             "Stock on hand": st.column_config.NumberColumn(
                 min_value=0, step=1
